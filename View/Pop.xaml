@@ -1,0 +1,164 @@
+﻿<UserControl
+    x:Class="BingChat.View.Pop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BingChat.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:viewmodel="clr-namespace:BingChat.ViewModel"
+    d:DataContext="{d:DesignInstance Type=viewmodel:MainVM}"
+    d:DesignHeight="450"
+    d:DesignWidth="400"
+    Foreground="{DynamicResource OnBackgroundBrush}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/BingChat;component/Style/index.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Background="{DynamicResource BackgroundBrush}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Border
+                Height="48"
+                Padding="4,0"
+                Background="{DynamicResource Surface1Brush}">
+                <Grid>
+
+                    <TextBlock
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Text="BingChat" />
+
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <Button
+                            Grid.Column="0"
+                            Padding="4"
+                            VerticalAlignment="Top"
+                            Command="{Binding ChatCommand}"
+                            DockPanel.Dock="Right"
+                            FontFamily="{DynamicResource MaterialIconsRound}"
+                            FontSize="14"
+                            Style="{StaticResource TextButton}">
+                            &#xe863;
+                        </Button>
+                        <Button
+                            Grid.Column="0"
+                            Padding="4"
+                            VerticalAlignment="Top"
+                            Command="{Binding ShowSettingCommand}"
+                            FontFamily="{DynamicResource MaterialIconsRound}"
+                            FontSize="16"
+                            Style="{StaticResource TextButton}">
+                            &#xE8B8;
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Padding="10,0">
+                <ScrollViewer Padding="0,0,4,0" VerticalScrollBarVisibility="Auto">
+
+                    <ItemsControl Margin="6,10" ItemsSource="{Binding Conversastions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="64" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        Grid.Column="0"
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Top"
+                                        Background="{DynamicResource TertiaryBrush}"
+                                        CornerRadius="16">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Foreground="{DynamicResource OnTertiaryBrush}"
+                                            Text="{Binding Type}" />
+                                    </Border>
+                                    <Border
+                                        Grid.Column="1"
+                                        Padding="8"
+                                        Background="{DynamicResource PrimaryContainerBrush}"
+                                        CornerRadius="16">
+                                        <!--<TextBox
+                                            VerticalContentAlignment="Top"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            IsReadOnly="True"
+                                            Text="{Binding Message}"
+                                            TextWrapping="Wrap" />-->
+                                        <mdxam:MarkdownScrollViewer
+                                            xml:space="preserve"
+                                            Foreground="{DynamicResource OnPrimaryContainerBrush}"
+                                            Markdown="{Binding Message}"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+
+            <GridSplitter
+                Grid.Row="2"
+                Height="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Background="{DynamicResource BackgroundBrush}" />
+
+            <Border
+                Grid.Row="2"
+                Padding="10"
+                Background="{DynamicResource Surface1Brush}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="1"
+                        Padding="4"
+                        Background="#20000000"
+                        BorderThickness="0"
+                        FontSize="16"
+                        Text="{Binding UserInput, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Button
+                        Grid.Column="2"
+                        MaxWidth="80"
+                        VerticalAlignment="Top"
+                        Command="{Binding ChatCommand}"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource TextButton}">
+                        发送
+                    </Button>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+
+</UserControl>

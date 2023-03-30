@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\bing.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MdXaml" Version="1.17.0" />
+    <PackageReference Include="Websocket.Client" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MaterialDesign3\MaterialDesign3.csproj" />
+	  <ProjectReference Include="..\..\MyWidgets.SDK\MyWidgets.SDK.csproj">
+		  <Private>false</Private>
+		  <ExcludeAssets>runtime</ExcludeAssets>
+	  </ProjectReference>
+  </ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Assets\bing.png" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+
+		<!--删除 Microsoft.Extensions 包，防止程序不知道引用哪个-->
+		<Exec Command="del &quot;$(TargetDir)Microsoft.Extensions.*.dll&quot;" />
+		<!--<Exec Command="xcopy &quot;$(TargetDir)&quot; &quot;$(SolutionDir)MyWidgets.APP\bin\Release\net6.0-windows\Plugins\Default&quot; /y/e" />-->
+		<Exec IgnoreExitCode="true" Command="mkdir &quot;$(SolutionDir)build\Release\net6.0-windows\Plugins\$(ProjectName)&quot;" />
+		<Exec IgnoreExitCode="true" Command="mkdir &quot;$(SolutionDir)build\Debug\net6.0-windows\Plugins\$(ProjectName)&quot;" />
+
+
+
+
+		<Exec Condition=" '$(Configuration)' == 'Release' " Command="xcopy &quot;$(TargetDir)&quot; &quot;$(SolutionDir)build\Release\net6.0-windows\Plugins\$(ProjectName)&quot; /y/e" />
+		<Exec Condition=" '$(Configuration)' == 'Debug' " Command="xcopy &quot;$(TargetDir)&quot; &quot;$(SolutionDir)build\Debug\net6.0-windows\Plugins\$(ProjectName)&quot; /y/e" />
+
+	</Target>
+
+</Project>
